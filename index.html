@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nasc Echo | Darwin Waterfront</title>
+    <link rel="manifest" href="/manifest.json">
+    <style>
+        :root {
+            --slate: #2F3E46; 
+            --mist: #F1F2F6;  
+            --copper: #B87333; 
+            --earth-green: #A8C69F;
+            --earth-blue: #7FB3D5;
+        }
+
+        body, html { 
+            margin: 0; padding: 0; height: 100%; 
+            background: var(--mist); 
+            font-family: 'Georgia', serif; 
+            overflow: hidden; 
+        }
+
+        /* The Custom Map View (Commercial Blackout) */
+        #map { height: 100vh; width: 100vw; background: var(--slate); }
+
+        /* Branding Overlay */
+        .overlay-ui {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            width: 85%;
+            max-width: 380px;
+            background: rgba(241, 242, 246, 0.98);
+            padding: 15px;
+            border-bottom: 3px solid var(--copper);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        /* The Message Card */
+        #message-card {
+            position: absolute;
+            bottom: -100%; 
+            left: 0;
+            width: 100%;
+            background: white;
+            padding: 30px;
+            transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 20;
+            border-top: 5px solid var(--copper);
+            box-sizing: border-box;
+        }
+
+        #message-card.active { bottom: 0; }
+
+        .sender-name { font-weight: bold; color: var(--slate); font-size: 1.2rem; margin-bottom: 5px; }
+        .echo-text { font-style: italic; line-height: 1.6; color: #333; font-size: 1.05rem; }
+
+        /* The Earth Globe Translation Icon */
+        .globe-translate {
+            float: right;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            border: 1.5px solid var(--mist);
+            border-radius: 50%;
+            padding: 4px;
+            background: white;
+        }
+
+        .btn-close { color: var(--copper); cursor: pointer; float: right; font-weight: bold; font-size: 0.9rem; }
+        
+        .legacy-tag {
+            margin-top: 20px; 
+            font-size: 0.75rem; 
+            color: var(--copper); 
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay-ui">
+        <div style="font-size: 0.7rem; letter-spacing: 3px; color: var(--copper); font-weight: bold;">NASC ECHO</div>
+        <div style="font-size: 1rem; color: var(--slate);">Darwin Waterfront Registry</div>
+    </div>
+
+    <div id="map"></div>
+
+    <div id="message-card" id="genesis-card">
+        <span class="btn-close" onclick="closeCard()">CLOSE ×</span>
+        
+        <div class="globe-translate" title="Translate Echo">
+            <svg viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="var(--earth-green)" />
+                <path d="M20 50 Q 50 10 80 50 T 20 50" fill="var(--earth-blue)" />
+                <circle cx="50" cy="40" r="4" fill="var(--copper)" /> 
+            </svg>
+        </div>
+
+        <div class="sender-name">James Alexander Laverty</div>
+        <div style="font-size: 0.85rem; color: #888; margin-bottom: 15px;">Darwin Waterfront • April 2026</div>
+        
+        <p class="echo-text">
+            "Time can pass and people can fade, but never let that chance pass you by. 
+            I'm leaving this pin here to remind us all: no matter where you are in the world, 
+            let them know they caught your eye. Let's leave the world a better place."
+        </p>
+        
+        <div class="legacy-tag">
+            Verified Profile • Renewal Due April 2027
+        </div>
+    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+
+    <script>
+        let map;
+        function initMap() {
+            // High-end Custom Blackout Styling
+            const styles = [
+                { "featureType": "poi", "stylers": [{ "visibility": "off" }] },
+                { "featureType": "transit", "stylers": [{ "visibility": "off" }] },
+                { "featureType": "water", "elementType": "geometry", "stylers": [{ "color": "#2F3E46" }] },
+                { "featureType": "landscape", "elementType": "geometry", "stylers": [{ "color": "#F1F2F6" }] },
+                { "featureType": "road", "elementType": "geometry", "stylers": [{ "color": "#FFFFFF" }] }
+            ];
+
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: -12.4634, lng: 130.8456 }, // Darwin Waterfront Coordinates
+                zoom: 16,
+                styles: styles,
+                disableDefaultUI: true,
+                gestureHandling: "greedy"
+            });
+
+            // The Soft Copper Genesis Marker
+            const marker = new google.maps.Marker({
+                position: { lat: -12.4634, lng: 130.8456 },
+                map: map,
+                icon: {
+                    path: google.maps.SymbolPath.CIRCLE,
+                    scale: 12,
+                    fillColor: "#B87333",
+                    fillOpacity: 1,
+                    strokeWeight: 4,
+                    strokeColor: "#FFFFFF"
+                }
+            });
+
+            marker.addListener("click", () => {
+                document.getElementById("message-card").classList.add("active");
+            });
+        }
+
+        function closeCard() {
+            document.getElementById("message-card").classList.remove("active");
+        }
+    </script>
+</body>
+</html>
