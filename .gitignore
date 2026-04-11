@@ -137,3 +137,18 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+# --- Nasc Echo Custom Rules ---
+
+# Vercel deployment metadata
+.vercel
+
+# Security: Ensure API keys and Stripe secrets stay local
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS Cleanup: Keep the repository professional and clutter-free
+.DS_Store
+Thumbs.db
