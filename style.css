@@ -1,0 +1,108 @@
+/* GLOBAL THEME: J A Laverty NZ Architecture */
+:root {
+    --gaelic-green: #006400;
+    --soft-copper: #B87333;
+    --mist-grey: #F5F5F5;
+    --slate: #2F3E46;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--mist-grey);
+}
+
+h1, h2, .mission-text {
+    font-family: 'Playfair Display', serif;
+    color: var(--slate);
+}
+
+/* THE ACTION GATE OVERLAY */
+.gateway-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(245, 245, 245, 0.9); /* Mist with transparency */
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gateway-card {
+    text-align: center;
+    max-width: 600px;
+    padding: 40px;
+    background: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border-radius: 8px;
+}
+
+.main-logo {
+    width: 180px;
+    margin-bottom: 20px;
+}
+
+/* CATEGORY BUTTONS */
+.category-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 30px 0;
+}
+
+.cat-btn {
+    background: white;
+    border: 1px solid var(--soft-copper);
+    padding: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: left;
+}
+
+.cat-btn:hover {
+    background: var(--mist-grey);
+    border-color: var(--gaelic-green);
+}
+
+.cat-btn strong {
+    display: block;
+    color: var(--gaelic-green);
+    font-size: 1.1rem;
+}
+
+.cat-btn span {
+    font-size: 0.9rem;
+    color: var(--slate);
+    font-style: italic;
+}
+
+/* THE MAP & BLUR EFFECT */
+#map {
+    height: 100vh;
+    width: 100%;
+    transition: filter 0.5s ease;
+}
+
+.blurred {
+    filter: blur(8px) grayscale(50%);
+}
+
+.hidden {
+    display: none !important;
+}
+
+.trademark-footer {
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    color: var(--slate);
+    letter-spacing: 1px;
+}
