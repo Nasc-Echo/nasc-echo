@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nasc Echo | Darwin Waterfront</title>
+    <title>Nasc Echo | Global Registry</title>
     <link rel="manifest" href="/manifest.json">
     <style>
         :root {
             --slate: #2F3E46; 
             --mist: #F1F2F6;  
             --copper: #B87333; 
-            --earth-green: #A8C69F;
-            --earth-blue: #7FB3D5;
         }
 
         body, html { 
@@ -21,33 +19,79 @@
             overflow: hidden; 
         }
 
-        /* The Custom Map View (Commercial Blackout) */
         #map { height: 100vh; width: 100vw; background: var(--slate); }
 
-        /* Branding Overlay */
+        /* BRANDING - TOP LEFT */
         .overlay-ui {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 12px 20px;
+            border-left: 4px solid var(--copper);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* SEARCH BAR - CENTER TOP */
+        #search-container {
             position: absolute;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 10;
-            width: 85%;
-            max-width: 380px;
-            background: rgba(241, 242, 246, 0.98);
-            padding: 15px;
-            border-bottom: 3px solid var(--copper);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            text-align: center;
+            width: 300px;
         }
 
-        /* The Message Card */
+        #pac-input {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            background: white;
+            font-family: 'Georgia', serif;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            outline: none;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        #pac-input:focus {
+            border-bottom: 2px solid var(--copper);
+        }
+
+        /* SUPPORT BUTTON - TOP RIGHT */
+        .support-trigger {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            background: var(--copper);
+            color: white;
+            padding: 10px 18px;
+            text-decoration: none;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 2px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .support-trigger:hover {
+            background: var(--slate);
+            transform: translateY(-2px);
+        }
+
+        /* MESSAGE CARD */
         #message-card {
             position: absolute;
             bottom: -100%; 
             left: 0;
             width: 100%;
             background: white;
-            padding: 30px;
+            padding: 40px 30px;
             transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 20;
             border-top: 5px solid var(--copper);
@@ -55,90 +99,77 @@
         }
 
         #message-card.active { bottom: 0; }
-
-        .sender-name { font-weight: bold; color: var(--slate); font-size: 1.2rem; margin-bottom: 5px; }
-        .echo-text { font-style: italic; line-height: 1.6; color: #333; font-size: 1.05rem; }
-
-        /* The Earth Globe Translation Icon */
-        .globe-translate {
-            float: right;
-            width: 45px;
-            height: 45px;
-            cursor: pointer;
-            border: 1.5px solid var(--mist);
-            border-radius: 50%;
-            padding: 4px;
-            background: white;
-        }
-
-        .btn-close { color: var(--copper); cursor: pointer; float: right; font-weight: bold; font-size: 0.9rem; }
-        
-        .legacy-tag {
-            margin-top: 20px; 
-            font-size: 0.75rem; 
-            color: var(--copper); 
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
+        .sender-name { font-weight: bold; color: var(--slate); font-size: 1.3rem; }
+        .echo-text { font-style: italic; line-height: 1.8; color: #333; }
+        .btn-close { color: var(--copper); cursor: pointer; float: right; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div class="overlay-ui">
-        <div style="font-size: 0.7rem; letter-spacing: 3px; color: var(--copper); font-weight: bold;">NASC ECHO</div>
-        <div style="font-size: 1rem; color: var(--slate);">Darwin Waterfront Registry</div>
+        <div style="font-size: 0.6rem; letter-spacing: 3px; color: var(--copper); font-weight: bold;">NASC ECHO</div>
+        <div style="font-size: 0.9rem; color: var(--slate);">Global Registry</div>
     </div>
+
+    <div id="search-container">
+        <input id="pac-input" type="text" placeholder="Search the Registry...">
+    </div>
+
+    <a href="https://donate.stripe.com/5kQ14f6lBdT6aXN0j15wI00" class="support-trigger" target="_blank">
+        Support
+    </a>
 
     <div id="map"></div>
 
-    <div id="message-card" id="genesis-card">
+    <div id="message-card">
         <span class="btn-close" onclick="closeCard()">CLOSE ×</span>
-        
-        <div class="globe-translate" title="Translate Echo">
-            <svg viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="45" fill="var(--earth-green)" />
-                <path d="M20 50 Q 50 10 80 50 T 20 50" fill="var(--earth-blue)" />
-                <circle cx="50" cy="40" r="4" fill="var(--copper)" /> 
-            </svg>
-        </div>
-
         <div class="sender-name">James Alexander Laverty</div>
-        <div style="font-size: 0.85rem; color: #888; margin-bottom: 15px;">Darwin Waterfront • April 2026</div>
-        
+        <div style="font-size: 0.8rem; color: #888; margin-bottom: 15px;">DARWIN WATERFRONT • GENESIS PIN</div>
         <p class="echo-text">
             "Time can pass and people can fade, but never let that chance pass you by. 
-            I'm leaving this pin here to remind us all: no matter where you are in the world, 
-            let them know they caught your eye. Let's leave the world a better place."
+            I'm leaving this pin here to remind us all: let's leave the world a better place."
         </p>
-        
-        <div class="legacy-tag">
-            Verified Profile • Renewal Due April 2027
-        </div>
     </div>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAyCtCzwKOJJdMf_dj85ztAk7gs4AjLVk&libraries=places&callback=initMap" async defer></script>
 
     <script>
         let map;
         function initMap() {
-            // High-end Custom Blackout Styling
             const styles = [
                 { "featureType": "poi", "stylers": [{ "visibility": "off" }] },
                 { "featureType": "transit", "stylers": [{ "visibility": "off" }] },
                 { "featureType": "water", "elementType": "geometry", "stylers": [{ "color": "#2F3E46" }] },
-                { "featureType": "landscape", "elementType": "geometry", "stylers": [{ "color": "#F1F2F6" }] },
-                { "featureType": "road", "elementType": "geometry", "stylers": [{ "color": "#FFFFFF" }] }
+                { "featureType": "landscape", "elementType": "geometry", "stylers": [{ "color": "#F1F2F6" }] }
             ];
 
             map = new google.maps.Map(document.getElementById("map"), {
-                center: { lat: -12.4634, lng: 130.8456 }, // Darwin Waterfront Coordinates
+                center: { lat: -12.4634, lng: 130.8456 },
                 zoom: 16,
                 styles: styles,
-                disableDefaultUI: true,
-                gestureHandling: "greedy"
+                disableDefaultUI: true
             });
 
-            // The Soft Copper Genesis Marker
+            // SEARCH LOGIC
+            const input = document.getElementById("pac-input");
+            const searchBox = new google.maps.places.SearchBox(input);
+
+            searchBox.addListener("places_changed", () => {
+                const places = searchBox.getPlaces();
+                if (places.length == 0) return;
+
+                const bounds = new google.maps.LatLngBounds();
+                places.forEach((place) => {
+                    if (place.geometry.viewport) {
+                        bounds.union(place.geometry.viewport);
+                    } else {
+                        bounds.extend(place.geometry.location);
+                    }
+                });
+                map.fitBounds(bounds);
+            });
+
+            // GENESIS PIN
             const marker = new google.maps.Marker({
                 position: { lat: -12.4634, lng: 130.8456 },
                 map: map,
@@ -147,7 +178,7 @@
                     scale: 12,
                     fillColor: "#B87333",
                     fillOpacity: 1,
-                    strokeWeight: 4,
+                    strokeWeight: 3,
                     strokeColor: "#FFFFFF"
                 }
             });
