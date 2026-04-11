@@ -1,195 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nasc Echo | Global Registry</title>
-    <link rel="manifest" href="/manifest.json">
-    <style>
-        :root {
-            --slate: #2F3E46; 
-            --mist: #F1F2F6;  
-            --copper: #B87333; 
-        }
+<button class="add-pin-trigger" onclick="openForm()">+</button>
 
-        body, html { 
-            margin: 0; padding: 0; height: 100%; 
-            background: var(--mist); 
-            font-family: 'Georgia', serif; 
-            overflow: hidden; 
-        }
+<div id="add-form-card" class="form-card">
+    <span class="btn-close" onclick="closeForm()">CANCEL ×</span>
+    <h3>New Echo Registry</h3>
+    <input type="text" id="user-name" placeholder="Your Name">
+    <textarea id="user-echo" placeholder="Leave your sincere message..."></textarea>
+    <button class="submit-btn" onclick="submitPin()">Register Pin ($1 AUD)</button>
+</div>
 
-        #map { height: 100vh; width: 100vw; background: var(--slate); }
+<style>
+    .add-pin-trigger {
+        position: absolute; bottom: 30px; right: 30px; z-index: 10;
+        background: var(--copper); color: white; border: none;
+        width: 60px; height: 60px; border-radius: 50%;
+        font-size: 2rem; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    .form-card {
+        position: absolute; top: -100%; left: 50%; transform: translateX(-50%);
+        width: 90%; max-width: 400px; background: white; padding: 30px;
+        z-index: 30; transition: top 0.6s ease; border-bottom: 5px solid var(--copper);
+    }
+    .form-card.active { top: 20px; }
+    h3 { font-family: 'Georgia', serif; color: var(--slate); margin-top: 0; }
+    input, textarea {
+        width: 100%; padding: 12px; margin: 10px 0;
+        border: 1px solid #ddd; font-family: 'Georgia', serif; box-sizing: border-box;
+    }
+    .submit-btn {
+        width: 100%; background: var(--slate); color: white; padding: 15px;
+        border: none; cursor: pointer; letter-spacing: 2px; text-transform: uppercase;
+    }
+</style>
 
-        /* BRANDING - TOP LEFT */
-        .overlay-ui {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 10;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 12px 20px;
-            border-left: 4px solid var(--copper);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        /* SEARCH BAR - CENTER TOP */
-        #search-container {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-            width: 300px;
-        }
-
-        #pac-input {
-            width: 100%;
-            padding: 12px 20px;
-            border: none;
-            background: white;
-            font-family: 'Georgia', serif;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            outline: none;
-            border-bottom: 2px solid transparent;
-            transition: border-color 0.3s;
-        }
-
-        #pac-input:focus {
-            border-bottom: 2px solid var(--copper);
-        }
-
-        /* SUPPORT BUTTON - TOP RIGHT */
-        .support-trigger {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 10;
-            background: var(--copper);
-            color: white;
-            padding: 10px 18px;
-            text-decoration: none;
-            font-size: 0.7rem;
-            letter-spacing: 2px;
-            font-weight: bold;
-            text-transform: uppercase;
-            border-radius: 2px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-        }
-
-        .support-trigger:hover {
-            background: var(--slate);
-            transform: translateY(-2px);
-        }
-
-        /* MESSAGE CARD */
-        #message-card {
-            position: absolute;
-            bottom: -100%; 
-            left: 0;
-            width: 100%;
-            background: white;
-            padding: 40px 30px;
-            transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 20;
-            border-top: 5px solid var(--copper);
-            box-sizing: border-box;
-        }
-
-        #message-card.active { bottom: 0; }
-        .sender-name { font-weight: bold; color: var(--slate); font-size: 1.3rem; }
-        .echo-text { font-style: italic; line-height: 1.8; color: #333; }
-        .btn-close { color: var(--copper); cursor: pointer; float: right; font-weight: bold; }
-    </style>
-</head>
-<body>
-
-    <div class="overlay-ui">
-        <div style="font-size: 0.6rem; letter-spacing: 3px; color: var(--copper); font-weight: bold;">NASC ECHO</div>
-        <div style="font-size: 0.9rem; color: var(--slate);">Global Registry</div>
-    </div>
-
-    <div id="search-container">
-        <input id="pac-input" type="text" placeholder="Search the Registry...">
-    </div>
-
-    <a href="https://donate.stripe.com/5kQ14f6lBdT6aXN0j15wI00" class="support-trigger" target="_blank">
-        Support
-    </a>
-
-    <div id="map"></div>
-
-    <div id="message-card">
-        <span class="btn-close" onclick="closeCard()">CLOSE ×</span>
-        <div class="sender-name">James Alexander Laverty</div>
-        <div style="font-size: 0.8rem; color: #888; margin-bottom: 15px;">DARWIN WATERFRONT • GENESIS PIN</div>
-        <p class="echo-text">
-            "Time can pass and people can fade, but never let that chance pass you by. 
-            I'm leaving this pin here to remind us all: let's leave the world a better place."
-        </p>
-    </div>
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAyCtCzwKOJJdMf_dj85ztAk7gs4AjLVk&libraries=places&callback=initMap" async defer></script>
-
-    <script>
-        let map;
-        function initMap() {
-            const styles = [
-                { "featureType": "poi", "stylers": [{ "visibility": "off" }] },
-                { "featureType": "transit", "stylers": [{ "visibility": "off" }] },
-                { "featureType": "water", "elementType": "geometry", "stylers": [{ "color": "#2F3E46" }] },
-                { "featureType": "landscape", "elementType": "geometry", "stylers": [{ "color": "#F1F2F6" }] }
-            ];
-
-            map = new google.maps.Map(document.getElementById("map"), {
-                center: { lat: -12.4634, lng: 130.8456 },
-                zoom: 16,
-                styles: styles,
-                disableDefaultUI: true
-            });
-
-            // SEARCH LOGIC
-            const input = document.getElementById("pac-input");
-            const searchBox = new google.maps.places.SearchBox(input);
-
-            searchBox.addListener("places_changed", () => {
-                const places = searchBox.getPlaces();
-                if (places.length == 0) return;
-
-                const bounds = new google.maps.LatLngBounds();
-                places.forEach((place) => {
-                    if (place.geometry.viewport) {
-                        bounds.union(place.geometry.viewport);
-                    } else {
-                        bounds.extend(place.geometry.location);
-                    }
-                });
-                map.fitBounds(bounds);
-            });
-
-            // GENESIS PIN
-            const marker = new google.maps.Marker({
-                position: { lat: -12.4634, lng: 130.8456 },
-                map: map,
-                icon: {
-                    path: google.maps.SymbolPath.CIRCLE,
-                    scale: 12,
-                    fillColor: "#B87333",
-                    fillOpacity: 1,
-                    strokeWeight: 3,
-                    strokeColor: "#FFFFFF"
-                }
-            });
-
-            marker.addListener("click", () => {
-                document.getElementById("message-card").classList.add("active");
-            });
-        }
-
-        function closeCard() {
-            document.getElementById("message-card").classList.remove("active");
+<script>
+    function openForm() { document.getElementById('add-form-card').classList.add('active'); }
+    function closeForm() { document.getElementById('add-form-card').classList.remove('active'); }
+    function submitPin() {
+        // This will eventually link to your Stripe checkout
+        window.location.href = "https://donate.stripe.com/5kQ14f6lBdT6aXN0j15wI00";
+    }
+</script>
         }
     </script>
 </body>
