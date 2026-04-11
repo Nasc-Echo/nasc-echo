@@ -11,17 +11,24 @@
 
     <div id="nasc-search-container">
         <div class="search-wrapper">
-            <input type="text" id="registry-search" placeholder="Search for a name or a memory...">
+            <input type="text" id="registry-search" placeholder="Search by Name, Memory, or City...">
         </div>
-        <div class="search-disclaimer">Human Registry Only • Non-Commercial • Be Kind</div>
     </div>
 
     <div id="entry-gateway" class="gateway-overlay">
         <div class="gateway-card">
             <img src="logo.png" alt="Nasc Echo Seal" class="main-logo">
             <h1>NASC ECHO</h1>
-            <p class="mission-text">"Leave that everlasting message, or the sorry you just need to leave. Be good. Be kind."</p>
             
+            <div class="mission-section">
+                <p class="mantra">"Leave that everlasting message, or the sorry you just need to leave. Be good. Be kind."</p>
+                <p class="about-text">
+                    Nasc Echo is a global registry of record for the words that define our lives. 
+                    Founded by <strong>J A Laverty NZ</strong>, we provide a verified, architectural space for 
+                    sincere apologies, legacies, and human connection.
+                </p>
+            </div>
+
             <div class="category-grid">
                 <button class="cat-btn" onclick="openForm('Sincere Apology')"><strong>Sincere Apology</strong><span>The sorry you just need to leave.</span></button>
                 <button class="cat-btn" onclick="openForm('Everlasting Message')"><strong>Everlasting Message</strong><span>For legacy, memory, and the test of time.</span></button>
@@ -29,24 +36,8 @@
                 <button class="cat-btn" onclick="openForm('Simple Thank You')"><strong>Simple Thank You</strong><span>For someone who made your day.</span></button>
                 <button class="cat-btn" onclick="openForm('Connection Search')"><strong>Connection Search</strong><span>Old classmates or neighbors.</span></button>
             </div>
+            
             <p class="walk-world">Don’t walk the world anymore without leaving those special words behind.</p>
-        </div>
-    </div>
-
-    <div id="form-overlay" class="hidden">
-        <div class="form-card">
-            <h2 id="form-title">New Entry</h2>
-            <input type="text" id="user-name" placeholder="Full Verified Name">
-            <input type="text" id="user-location" placeholder="City, Country">
-            <textarea id="user-message" placeholder="Your message... (First 12 words are public)"></textarea>
-            
-            <div class="secure-contact-box">
-                <p>🔒 <strong>Secure Contact Details</strong></p>
-                <input type="text" id="user-contact" placeholder="Email or Phone (Hidden until verified)">
-            </div>
-            
-            <button class="pay-btn" onclick="initiatePayment()">Pin on Global Map - $1.00</button>
-            <button class="back-btn" onclick="closeForm()">Back</button>
         </div>
     </div>
 
@@ -56,7 +47,7 @@
         © 2026 J A Laverty NZ | Nasc Echo: Be good. Be kind.
     </footer>
 
-    <script src="env.js"></script> <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&callback=initMap" async defer></script>
     <script src="script.js"></script>
 </body>
 </html>
