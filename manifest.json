@@ -1,19 +1,21 @@
 {
-  "name": "Nasc Echo",
-  "short_name": "NascEcho",
-  "description": "A global registry for sincere apologies and connection. Leave the world a better place.",
-  "start_url": "/index.html",
+  "name": "Nasc Echo | Global Registry",
+  "short_name": "Nasc Echo",
+  "description": "A global registry for sincere connection. Leave the world a better place.",
+  "start_url": ".",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#F1F2F6",
   "theme_color": "#B87333",
   "icons": [
     {
-      "src": "https://via.placeholder.com/192x192.png?text=Nasc+Echo",
+      "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "https://via.placeholder.com/512x512.png?text=Nasc+Echo",
+      "src": "icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
